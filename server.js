@@ -27,7 +27,7 @@ app.get("/Api/product/:id", async (req, res) => {
         const { id } = req.params;
         const product = await Product.findById(id);
         if (!product) {
-            res.json({ noooo: "noooooo" });
+            res.json({ message: "product not found" });
         }
         res.json(product);
     } catch (e) {
