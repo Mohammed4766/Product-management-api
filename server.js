@@ -2,6 +2,15 @@ const express = require('express');
 const app = express();
 const PORT = 3001;
 
+const client = require('prom-client');
+const collectDefaultMetrics = client.collectDefaultMetrics;
+collectDefaultMetrics();
+
+const register = client.register;
+
+
+
+
 app.use(express.json());
 
 let products = [
@@ -9,6 +18,12 @@ let products = [
   { id: 2, name: 'Galaxy', price: 2500 },
   { id: 3, name: 'Pixel', price: 2000 }
 ];
+
+
+app.get('/metrics', async (req, res) => {
+  res.set('Content-Type', register.contentType);
+  res.end(await register.metrics());
+});
 
 app.get("/Api/product", (req, res) => {
   res.json(products);
